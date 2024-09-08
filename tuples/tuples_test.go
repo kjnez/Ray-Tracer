@@ -59,9 +59,29 @@ func TestAddTwoTuples(t *testing.T) {
 func TestSubtractTwoPoints(t *testing.T) {
 	p1 := Point(3, 2, 1)
 	p2 := Point(5, 6, 7)
-	substracted := p1.Subtract(p2)
+	subtracted := p1.Subtract(p2)
 	expected := Vector(-2, -4, -6)
-	if !substracted.Equals(expected) {
-		t.Errorf("Expected %v, got %v", expected, substracted)
+	if !subtracted.Equals(expected) {
+		t.Errorf("Expected %v, got %v", expected, subtracted)
+	}
+}
+
+func TestSubtractVectorFromPoint(t *testing.T) {
+	p := Point(3, 2, 1)
+	v := Vector(5, 6, 7)
+	subtracted := p.Subtract(v)
+	expected := Point(-2, -4, -6)
+	if !subtracted.Equals(expected) {
+		t.Errorf("Expected %v, got %v", expected, subtracted)
+	}
+}
+
+func TestSutractVectorFromVector(t *testing.T) {
+	v1 := Vector(3, 2, 1)
+	v2 := Vector(5, 6, 7)
+	subtracted := v1.Subtract(v2)
+	expected := Vector(-2, -4, -6)
+	if !subtracted.Equals(expected) {
+		t.Errorf("Expected %v, got %v", expected, subtracted)
 	}
 }
