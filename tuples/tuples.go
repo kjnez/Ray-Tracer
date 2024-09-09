@@ -91,3 +91,12 @@ func Magnitude(t Tuple) float64 {
 		panic("tuple must be a vector")
 	}
 }
+
+func Normalize(t Tuple) Tuple {
+	if t.IsVector() {
+		magnitude := Magnitude(t)
+		return Divide(t, magnitude)
+	} else {
+		panic("cannot normalize a point")
+	}
+}

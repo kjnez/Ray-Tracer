@@ -123,24 +123,40 @@ func TestDivide(t *testing.T) {
 }
 
 func TestMagnitude(t *testing.T) {
-    tests := []struct {
-        name     string
-        vector   Tuple
-        expected float64
-    }{
-        {"Unit X", Vector(1, 0, 0), 1.0},
-        {"Unit Y", Vector(0, 1, 0), 1.0},
-        {"Unit Z", Vector(0, 0, 1), 1.0},
-        {"Vector 1,2,3", Vector(1, 2, 3), math.Sqrt(14)},
-        {"Vector -1,-2,-3", Vector(-1, -2, -3), math.Sqrt(14)},
-    }
+	tests := []struct {
+		name     string
+		vector   Tuple
+		expected float64
+	}{
+		{"Unit X", Vector(1, 0, 0), 1.0},
+		{"Unit Y", Vector(0, 1, 0), 1.0},
+		{"Unit Z", Vector(0, 0, 1), 1.0},
+		{"Vector 1,2,3", Vector(1, 2, 3), math.Sqrt(14)},
+		{"Vector -1,-2,-3", Vector(-1, -2, -3), math.Sqrt(14)},
+	}
 
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            got := Magnitude(tt.vector)
-            if !Equal(got, tt.expected) {
-                t.Errorf("Magnitude() = %v, want %v", got, tt.expected)
-            }
-        })
-    }
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Magnitude(tt.vector)
+			if !Equal(got, tt.expected) {
+				t.Errorf("Magnitude() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestNormalize(t *testing.T) {
+	v1, v2 := Vector(4, 0, 0), Vector(1, 2, 3)
+	nv1, nv2 := Normalize(v1), Normalize(v2)
+	ev1, ev2 := Vector(1, 0, 0), Vector(1 / math.Sqrt(14), 2 / math.Sqrt(14), 3 / math.Sqrt(14))
+	m2, em2 := Magnitude(nv2), 1.0
+	if !Equals(nv1, ev1) {
+		t.Errorf("Expected %v, got %v", ev1, nv1)
+	}
+	if !Equals(nv2, ev2) {
+		t.Errorf("Expected %v, got %v", ev2, nv2)
+	}
+	if !Equal(m2, em2) {
+		t.Errorf("Expected %v, got %v", em2, m2)
+	}
 }
