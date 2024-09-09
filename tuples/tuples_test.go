@@ -33,7 +33,7 @@ func TestTupleWithW0IsVector(t *testing.T) {
 func TestPointCreatesW1Tuple(t *testing.T) {
 	p := Point(4, -4, 3)
 	expected := NewTuple(4, -4, 3, 1)
-	if !p.Equals(expected) {
+	if !Equals(p, expected) {
 		t.Errorf("Expected %v, got %v", expected, p)
 	}
 }
@@ -41,7 +41,7 @@ func TestPointCreatesW1Tuple(t *testing.T) {
 func TestVectorCreatesW0Tuple(t *testing.T) {
 	v := Vector(4, -4, 3)
 	expected := NewTuple(4, -4, 3, 0)
-	if !v.Equals(expected) {
+	if !Equals(v, expected) {
 		t.Errorf("Expected %v, got %v", expected, v)
 	}
 }
@@ -49,9 +49,9 @@ func TestVectorCreatesW0Tuple(t *testing.T) {
 func TestAddTwoTuples(t *testing.T) {
 	t1 := NewTuple(3, -2, 5, 1)
 	t2 := NewTuple(-2, 3, 1, 0)
-	sum := t1.Add(t2)
+	sum := Add(t1, t2)
 	expected := NewTuple(1, 1, 6, 1)
-	if !sum.Equals(expected) {
+	if !Equals(sum, expected) {
 		t.Errorf("Expected %v, got %v", expected, sum)
 	}
 }
@@ -59,9 +59,9 @@ func TestAddTwoTuples(t *testing.T) {
 func TestSubtractTwoPoints(t *testing.T) {
 	p1 := Point(3, 2, 1)
 	p2 := Point(5, 6, 7)
-	subtracted := p1.Subtract(p2)
+	subtracted := Subtract(p1, p2)
 	expected := Vector(-2, -4, -6)
-	if !subtracted.Equals(expected) {
+	if !Equals(subtracted, expected) {
 		t.Errorf("Expected %v, got %v", expected, subtracted)
 	}
 }
@@ -69,9 +69,9 @@ func TestSubtractTwoPoints(t *testing.T) {
 func TestSubtractVectorFromPoint(t *testing.T) {
 	p := Point(3, 2, 1)
 	v := Vector(5, 6, 7)
-	subtracted := p.Subtract(v)
+	subtracted := Subtract(p, v)
 	expected := Point(-2, -4, -6)
-	if !subtracted.Equals(expected) {
+	if !Equals(subtracted, expected) {
 		t.Errorf("Expected %v, got %v", expected, subtracted)
 	}
 }
@@ -79,9 +79,44 @@ func TestSubtractVectorFromPoint(t *testing.T) {
 func TestSutractVectorFromVector(t *testing.T) {
 	v1 := Vector(3, 2, 1)
 	v2 := Vector(5, 6, 7)
-	subtracted := v1.Subtract(v2)
+	subtracted := Subtract(v1, v2)
 	expected := Vector(-2, -4, -6)
-	if !subtracted.Equals(expected) {
+	if !Equals(subtracted, expected) {
 		t.Errorf("Expected %v, got %v", expected, subtracted)
+	}
+}
+
+func TestNegateTuple(t *testing.T) {
+	tuple := NewTuple(1, -2, 3, -4)
+	negateive_t := Negate(tuple)
+	expected := NewTuple(-1, 2, -3, 4)
+	if !Equals(negateive_t, expected) {
+		t.Errorf("Expected %v, got %v", expected, negateive_t)
+	}
+}
+
+func TestMultiply(t *testing.T) {
+	tuple := NewTuple(1, -2, 3, -4)
+	scalar1 := 3.5
+	scalar2 := 0.5
+	multiply1 := Multiply(tuple, scalar1)
+	multiply2 := Multiply(tuple, scalar2)
+	expected1 := Tuple{3.5, -7, 10.5, -14}
+	expected2 := Tuple{0.5, -1, 1.5, -2}
+	if !Equals(multiply1, expected1) {
+		t.Errorf("Expected %v, got %v", expected1, multiply1)
+	}
+	if !Equals(multiply2, expected2) {
+		t.Errorf("Expected %v, got %v", expected2, multiply2)
+	}
+}
+
+func TestDivide(t *testing.T) {
+	tuple := NewTuple(1, -2, 3, -4)
+	scalar := 2.0
+	division := Divide(tuple, scalar)
+	expected := Tuple{0.5, -1, 1.5, -2}
+	if !Equals(division, expected) {
+		t.Errorf("Expected %v, got %v", expected, division)
 	}
 }

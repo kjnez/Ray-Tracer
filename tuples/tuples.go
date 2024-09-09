@@ -38,32 +38,48 @@ func Equal(a, b float64) bool {
 	}
 }
 
-func (t Tuple) Equals(other Tuple) bool {
-	return Equal(t.x, other.x) &&
-	Equal(t.y, other.y) &&
-	Equal(t.z, other.z) &&
-	Equal(t.w, other.w)
+func Equals(t1, t2 Tuple) bool {
+	return Equal(t1.x, t2.x) &&
+	Equal(t1.y, t2.y) &&
+	Equal(t1.z, t2.z) &&
+	Equal(t1.w, t2.w)
 }
 
-func (t Tuple) Add(other Tuple) Tuple {
+
+func Add(t1, t2 Tuple) Tuple {
 	return Tuple{
-		t.x + other.x,
-		t.y + other.y,
-		t.z + other.z,
-		t.w + other.w,
+		t1.x + t2.x,
+		t1.y + t2.y,
+		t1.z + t2.z,
+		t1.w + t2.w,
 	}
 }
 
-func (p Tuple) Subtract(other Tuple) Tuple {
+func Subtract(t1, t2 Tuple) Tuple {
 	return Tuple{
-		p.x - other.x,
-		p.y - other.y,
-		p.z - other.z,
-		p.w - other.w,
+		t1.x - t2.x,
+		t1.y - t2.y,
+		t1.z - t2.z,
+		t1.w - t2.w,
 	}
 }
 
-func (t Tuple) Negate() Tuple {
+func Negate(t Tuple) Tuple {
 	return Tuple{-t.x, -t.y, -t.z, -t.w}
 }
 
+func Multiply(tuple Tuple, scalar float64) Tuple {
+	return Tuple{
+		tuple.x * scalar,
+		tuple.y * scalar,
+		tuple.z * scalar,
+		tuple.w * scalar,
+	}
+}
+
+func Divide(tuple Tuple, scalar float64) Tuple {
+	if scalar == 0 {
+		panic("division by zero")
+	}
+	return Multiply(tuple, 1.0 / scalar)
+}
