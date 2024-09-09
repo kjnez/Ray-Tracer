@@ -2,6 +2,7 @@ package tuples
 
 import (
 	"testing"
+	"math"
 )
 
 func TestTupleWithW1IsPoint(t *testing.T) {
@@ -119,4 +120,27 @@ func TestDivide(t *testing.T) {
 	if !Equals(division, expected) {
 		t.Errorf("Expected %v, got %v", expected, division)
 	}
+}
+
+func TestMagnitude(t *testing.T) {
+    tests := []struct {
+        name     string
+        vector   Tuple
+        expected float64
+    }{
+        {"Unit X", Vector(1, 0, 0), 1.0},
+        {"Unit Y", Vector(0, 1, 0), 1.0},
+        {"Unit Z", Vector(0, 0, 1), 1.0},
+        {"Vector 1,2,3", Vector(1, 2, 3), math.Sqrt(14)},
+        {"Vector -1,-2,-3", Vector(-1, -2, -3), math.Sqrt(14)},
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            got := Magnitude(tt.vector)
+            if !Equal(got, tt.expected) {
+                t.Errorf("Magnitude() = %v, want %v", got, tt.expected)
+            }
+        })
+    }
 }

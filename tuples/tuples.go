@@ -83,3 +83,11 @@ func Divide(tuple Tuple, scalar float64) Tuple {
 	}
 	return Multiply(tuple, 1.0 / scalar)
 }
+
+func Magnitude(t Tuple) float64 {
+	if t.IsVector() {
+		return math.Sqrt(math.Pow(t.x, 2) + math.Pow(t.y, 2) + math.Pow(t.z, 2))
+	} else {
+		panic("tuple must be a vector")
+	}
+}
