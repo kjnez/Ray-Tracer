@@ -160,3 +160,27 @@ func TestNormalize(t *testing.T) {
 		t.Errorf("Expected %v, got %v", em2, m2)
 	}
 }
+
+func TestDotProduct(t *testing.T) {
+	v1, v2 := Vector(1, 2, 3), Vector(2, 3, 4)
+	dotProduct := DotProduct(v1, v2)
+	expected := 20.0
+	if !Equal(dotProduct, expected) {
+		t.Errorf("Expected %v, got %v", expected, dotProduct)
+	}
+}
+
+func TestCrossProduct(t *testing.T) {
+	v1, v2 := Vector(1, 2, 3), Vector(2, 3, 4)
+	crossProductV1V2 := CrossProduct(v1, v2)
+	crossProductV2V1 := CrossProduct(v2, v1)
+	expectedV1V2 := Vector(-1, 2, -1)
+	expectedV2V1 := Vector(1, -2, 1)
+	if !Equals(crossProductV1V2, expectedV1V2) {
+		t.Errorf("Expected %v, got %v", expectedV1V2, crossProductV1V2)
+	}
+
+	if !Equals(crossProductV2V1, expectedV2V1) {
+		t.Errorf("Expected %v, got %v", expectedV2V1, crossProductV2V1)
+	}
+}

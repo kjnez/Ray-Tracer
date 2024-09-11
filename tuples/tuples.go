@@ -100,3 +100,23 @@ func Normalize(t Tuple) Tuple {
 		panic("cannot normalize a point")
 	}
 }
+
+func DotProduct(t1, t2 Tuple) float64 {
+	if !(t1.IsVector() && t2.IsVector()) {
+		panic("cannot perform dot product on points")
+	} else {
+		return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z + t1.w * t2.w
+	}
+}
+
+func CrossProduct(t1, t2 Tuple) Tuple {
+	if !(t1.IsVector() && t2.IsVector()) {
+		panic("cannot perform cross product on points")
+	} else {
+		return Vector(
+			t1.y * t2.z - t1.z * t2.y,
+			t1.z * t2.x - t1.x * t2.z,
+			t1.x * t2.y - t1.y * t2.x,
+		)
+	}
+}
