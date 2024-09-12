@@ -8,6 +8,10 @@ type Tuple struct {
 	x, y, z, w float64
 }
 
+type Color struct {
+	red, green, blue float64
+}
+
 func NewTuple(x, y, z, w float64) Tuple {
 	return Tuple{x, y, z, w}
 }
@@ -45,6 +49,11 @@ func Equals(t1, t2 Tuple) bool {
 	Equal(t1.w, t2.w)
 }
 
+func EqualsColor(c1, c2 Color) bool {
+	return Equal(c1.red, c2.red) &&
+	Equal(c1.green, c2.green) &&
+	Equal(c1.blue, c2.blue)
+}
 
 func Add(t1, t2 Tuple) Tuple {
 	return Tuple{
@@ -118,5 +127,21 @@ func CrossProduct(t1, t2 Tuple) Tuple {
 			t1.z * t2.x - t1.x * t2.z,
 			t1.x * t2.y - t1.y * t2.x,
 		)
+	}
+}
+
+func AddColor(c1, c2 Color) Color {
+	return Color{
+		c1.red + c2.red,
+		c1.green + c2.green,
+		c1.blue + c2.blue,
+	}
+}
+
+func SubtractColor(c1, c2 Color) Color {
+	return Color{
+		c1.red - c2.red,
+		c1.green - c2.green,
+		c1.blue - c2.blue,
 	}
 }

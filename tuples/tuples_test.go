@@ -184,3 +184,36 @@ func TestCrossProduct(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expectedV2V1, crossProductV2V1)
 	}
 }
+
+func TestColor(t *testing.T) {
+	c := Color{-0.5, 0.4, 1.7}
+	if c.red != -0.5 {
+		t.Errorf("Expected %v, got %v", -0.5, c.red)
+	}
+	if c.green != 0.4 {
+		t.Errorf("Expected %v, got %v", 0.4, c.green)
+	}
+	if c.blue != 1.7 {
+		t.Errorf("Expected %v, got %v", 1.7, c.blue)
+	}
+}
+
+func TestAddColor(t *testing.T) {
+	c1 := Color{0.9, 0.6, 0.75}
+	c2 := Color{0.7, 0.1, 0.25}
+	sum := AddColor(c1, c2)
+	expected := Color{1.6, 0.7, 1.0}
+	if !EqualsColor(sum, expected) {
+		t.Errorf("Expected %v, got %v", expected, sum)
+	}
+}
+
+func TestSubtractColor(t *testing.T) {
+	c1 := Color{0.9, 0.6, 0.75}
+	c2 := Color{0.7, 0.1, 0.25}
+	diff := SubtractColor(c1, c2)
+	expected := Color{0.2, 0.5, 0.5}
+	if !EqualsColor(expected, diff) {
+		t.Errorf("Expected %v, got %v", expected, diff)
+	}
+}
