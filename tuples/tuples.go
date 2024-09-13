@@ -157,3 +157,11 @@ func MultiplyColorByScalar(c Color, s float64) Color {
 		c.blue * s,
 	}
 }
+
+func MultiplyColorByColor(c1, c2 Color) Color {
+	return Color{
+		c1.red * c2.red,
+		c1.green * c2.green,
+		c1.blue * c2.blue,
+	}
+}

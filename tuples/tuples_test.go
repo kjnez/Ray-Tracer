@@ -1,8 +1,8 @@
 package tuples
 
 import (
-	"testing"
 	"math"
+	"testing"
 )
 
 func TestTupleWithW1IsPoint(t *testing.T) {
@@ -224,6 +224,15 @@ func TestMultiplyColorByScalar(t *testing.T) {
 	expected := NewColor(0.4, 0.6, 0.8)
 	multiplied := MultiplyColorByScalar(c, s)
 	if !EqualsColor(expected, multiplied) {
+		t.Errorf("Expected %v, got %v", expected, multiplied)
+	}
+}
+
+func TestMultiplyColorByColor(t *testing.T) {
+	c1, c2 := NewColor(1, 0.2, 0.4), NewColor(0.9, 1, 0.1)
+	multiplied := MultiplyColorByColor(c1, c2)
+	expected := NewColor(0.9, 0.2, 0.04)
+	if !EqualsColor(multiplied, expected) {
 		t.Errorf("Expected %v, got %v", expected, multiplied)
 	}
 }
