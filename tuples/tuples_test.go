@@ -230,7 +230,7 @@ func TestMultiplyColorByScalar(t *testing.T) {
 
 func TestMultiplyColorByColor(t *testing.T) {
 	c1, c2 := NewColor(1, 0.2, 0.4), NewColor(0.9, 1, 0.1)
-	multiplied := MultiplyColorByColor(c1, c2)
+	multiplied := HadamardProduct(c1, c2)
 	expected := NewColor(0.9, 0.2, 0.04)
 	if !EqualsColor(multiplied, expected) {
 		t.Errorf("Expected %v, got %v", expected, multiplied)

@@ -158,7 +158,7 @@ func MultiplyColorByScalar(c Color, s float64) Color {
 	}
 }
 
-func MultiplyColorByColor(c1, c2 Color) Color {
+func HadamardProduct(c1, c2 Color) Color {
 	return Color{
 		c1.red * c2.red,
 		c1.green * c2.green,
