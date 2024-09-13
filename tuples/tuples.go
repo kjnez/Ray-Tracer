@@ -16,6 +16,10 @@ func NewTuple(x, y, z, w float64) Tuple {
 	return Tuple{x, y, z, w}
 }
 
+func NewColor(red, green, blue float64) Color {
+	return Color{red, green, blue}
+}
+
 func Point(x, y, z float64) Tuple {
 	return Tuple{x, y, z, 1.0}
 }
@@ -143,5 +147,13 @@ func SubtractColor(c1, c2 Color) Color {
 		c1.red - c2.red,
 		c1.green - c2.green,
 		c1.blue - c2.blue,
+	}
+}
+
+func MultiplyColorByScalar(c Color, s float64) Color {
+	return Color{
+		c.red * s,
+		c.green * s,
+		c.blue * s,
 	}
 }
