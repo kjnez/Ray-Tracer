@@ -236,3 +236,15 @@ func TestMultiplyColorByColor(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, multiplied)
 	}
 }
+
+func TestNewCanvas(t *testing.T) {
+	c := NewCanvas(10, 20)
+	if !(c.width == 10 && c.height == 20) {
+		t.Errorf("Expected width %v, got %v", 10, c.width)
+		t.Errorf("Expected height %v, got %v", 20, c.height)
+	}
+	black := NewColor(0, 0, 0)
+	if !EqualsColor(c.pixels[3][4], black) {
+		t.Errorf("Expected color %v, got %v", black, c.pixels[3][4])
+	}
+}

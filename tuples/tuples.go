@@ -12,12 +12,31 @@ type Color struct {
 	red, green, blue float64
 }
 
+type Canvas struct {
+	width int
+	height int
+	pixels [][]Color
+}
+
 func NewTuple(x, y, z, w float64) Tuple {
 	return Tuple{x, y, z, w}
 }
 
 func NewColor(red, green, blue float64) Color {
 	return Color{red, green, blue}
+}
+
+func NewCanvas(width, height int) *Canvas {
+	c := &Canvas{
+		width: width,
+		height: height,
+		pixels: make([][]Color, height),
+	}
+	for i := range c.pixels {
+		c.pixels[i] = make([]Color, width)
+	}
+
+	return c
 }
 
 func Point(x, y, z float64) Tuple {
