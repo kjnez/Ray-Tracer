@@ -248,3 +248,22 @@ func TestNewCanvas(t *testing.T) {
 		t.Errorf("Expected color %v, got %v", black, c.pixels[3][4])
 	}
 }
+
+func TestWritePixel(t *testing.T) {
+	c := *NewCanvas(10, 20)
+	red := NewColor(1, 0, 0)
+	WritePixel(c, 2, 3, red)
+	if !EqualsColor(red, c.pixels[2][3]) {
+		t.Errorf("Expected color %v, got %v", red, c.pixels[2][3])
+	}
+}
+
+func TestPixelAt(t *testing.T) {
+	c := *NewCanvas(10, 20)
+	red := NewColor(1, 0, 0)
+	WritePixel(c, 2, 3, red)
+	if PixelAt(c, 2, 3) != red {
+		t.Errorf("Expected color %v, got %v", red, PixelAt(c, 2, 3))
+	}
+}
+

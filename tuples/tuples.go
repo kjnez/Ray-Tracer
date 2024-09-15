@@ -184,3 +184,11 @@ func HadamardProduct(c1, c2 Color) Color {
 		c1.blue * c2.blue,
 	}
 }
+
+func WritePixel(canvas Canvas, r, c uint64, color Color) {
+	canvas.pixels[r][c] = color
+}
+
+func PixelAt(canvas Canvas, r, c uint64) Color {
+	return canvas.pixels[r][c]
+}
