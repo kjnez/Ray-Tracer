@@ -1,7 +1,10 @@
 package tuples
 
 import (
+	"fmt"
 	"math"
+	"os"
+	"strings"
 )
 
 type Tuple struct {
@@ -185,10 +188,42 @@ func HadamardProduct(c1, c2 Color) Color {
 	}
 }
 
-func WritePixel(canvas Canvas, r, c uint64, color Color) {
+func WritePixel(canvas Canvas, r, c int, color Color) {
 	canvas.pixels[r][c] = color
 }
 
-func PixelAt(canvas Canvas, r, c uint64) Color {
+func PixelAt(canvas Canvas, r, c int) Color {
 	return canvas.pixels[r][c]
+}
+
+func clamp(v float64) int {
+	if v < 0 {
+		return 0
+	}
+	if v > 1 {
+		return 255
+	}
+	return int(math.Ceil(v * 255))
+}
+
+func CanvasToPPM(c Canvas, filename string) error {
+	var builder strings.Builder
+	fmt.Fprintf(&builder, "P3\n%d %d\n255\n", c.width, c.height)
+	for x := 0; x < c.height; x++ {
+		var line []string
+		for y := 0; y < c.width; y++ {
+			color := PixelAt(c, x, y)
+			r := clamp(color.red)
+			g := clamp(color.green)
+			b := clamp(color.blue)
+			line = append(line, fmt.Sprintf("%d %d %d", r, g, b))
+		}
+		fmt.Fprintf(&builder, "%s\n", strings.Join(line, " "))
+	}
+
+	err := os.WriteFile(filename, []byte(builder.String()), 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write PPM file: %w", err)
+	}
+	return nil
 }

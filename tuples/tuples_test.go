@@ -2,6 +2,7 @@ package tuples
 
 import (
 	"math"
+	"os"
 	"testing"
 )
 
@@ -267,3 +268,38 @@ func TestPixelAt(t *testing.T) {
 	}
 }
 
+func TestCanvasToPPM(t *testing.T) {
+	c := *NewCanvas(5, 3)
+	c1 := NewColor(1.5, 0, 0)
+	c2 := NewColor(0, 0.5, 0)
+	c3 := NewColor(-0.5, 0, 1)
+	WritePixel(c, 0, 0, c1)
+	WritePixel(c, 1, 2, c2)
+	WritePixel(c, 2, 4, c3)
+
+	filename := "test_output.ppm"
+
+	err := CanvasToPPM(c, filename)
+	if err != nil {
+		t.Fatalf("CanvasToPPM returned an error: %v", err)
+	}
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		t.Fatalf("Failed to read output file: %v", err)
+	}
+	expectedContent := `P3
+5 3
+255
+255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
+`
+	if string(content) != expectedContent {
+		t.Errorf("File content does not match expected. \nGot:\n%s\nWant:\n%s", string(content), expectedContent)
+	}
+	err = os.Remove(filename)
+	if err != nil {
+		t.Fatalf("Failed to remove test output file: %v", err)
+	}
+	
+}
