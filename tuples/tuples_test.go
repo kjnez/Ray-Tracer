@@ -3,6 +3,7 @@ package tuples
 import (
 	"math"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -269,7 +270,7 @@ func TestPixelAt(t *testing.T) {
 }
 
 func TestCanvasToPPM(t *testing.T) {
-	c := *NewCanvas(5, 3)
+	c := *NewCanvas(3, 5)
 	c1 := NewColor(1.5, 0, 0)
 	c2 := NewColor(0, 0.5, 0)
 	c3 := NewColor(-0.5, 0, 1)
@@ -302,4 +303,41 @@ func TestCanvasToPPM(t *testing.T) {
 		t.Fatalf("Failed to remove test output file: %v", err)
 	}
 	
+}
+
+func TestSplittingLongLines(t *testing.T) {
+	canvas := *NewCanvas(2, 10)
+	color := NewColor(1, 0.8, 0.6)
+	for x := 0; x < canvas.height; x++ {
+		for y := 0; y < canvas.width; y++ {
+			WritePixel(canvas, x, y, color)
+		}
+	}
+
+	filename := "test_output.ppm"
+
+	err := CanvasToPPM(canvas, filename)
+	if err != nil {
+		t.Fatalf("CanvasToPPM returned an error: %v", err)
+	}
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		t.Fatalf("Failed to read output file: %v", err)
+	}
+	lines := strings.Split(string(content), "\n")
+	if len(lines) < 8 {
+		t.Fatalf("Output file does not contain expected number of lines.")
+	}
+	extractedLines := strings.Join(lines[3:7], "\n")
+	expectedLinesFourToSeven := `255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153
+255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153`
+	if extractedLines != expectedLinesFourToSeven {
+		t.Errorf("File content does not match expected. \nGot:\n%s\nWant:\n%s", extractedLines, expectedLinesFourToSeven)
+	}
+	err = os.Remove(filename)
+	if err != nil {
+		t.Fatalf("Failed to remove test output file: %v", err)
+	}
 }
