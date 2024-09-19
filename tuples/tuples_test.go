@@ -241,9 +241,9 @@ func TestMultiplyColorByColor(t *testing.T) {
 
 func TestNewCanvas(t *testing.T) {
 	c := NewCanvas(10, 20)
-	if !(c.width == 10 && c.height == 20) {
-		t.Errorf("Expected width %v, got %v", 10, c.width)
-		t.Errorf("Expected height %v, got %v", 20, c.height)
+	if !(c.height == 10 && c.width == 20) {
+		t.Errorf("Expected height %v, got %v", 10, c.height)
+		t.Errorf("Expected width %v, got %v", 20, c.width)
 	}
 	black := NewColor(0, 0, 0)
 	if !EqualsColor(c.pixels[3][4], black) {

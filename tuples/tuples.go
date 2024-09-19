@@ -29,7 +29,7 @@ func NewColor(red, green, blue float64) Color {
 	return Color{red, green, blue}
 }
 
-func NewCanvas(width, height int) *Canvas {
+func NewCanvas(height, width int) *Canvas {
 	c := &Canvas{
 		width: width,
 		height: height,
@@ -210,15 +210,35 @@ func CanvasToPPM(c Canvas, filename string) error {
 	var builder strings.Builder
 	fmt.Fprintf(&builder, "P3\n%d %d\n255\n", c.width, c.height)
 	for x := 0; x < c.height; x++ {
-		var line []string
+		var currentLine string
+		lineLength := 0
 		for y := 0; y < c.width; y++ {
 			color := PixelAt(c, x, y)
 			r := clamp(color.red)
 			g := clamp(color.green)
 			b := clamp(color.blue)
-			line = append(line, fmt.Sprintf("%d %d %d", r, g, b))
+			pixelStr := fmt.Sprintf("%d %d %d", r, g, b)
+
+			if lineLength + len(pixelStr) > 70 {
+				if pixelStr1 := fmt.Sprintf("%d %d", r, g); lineLength + len(pixelStr1) <= 70 {
+					builder.WriteString(currentLine + pixelStr1 + "\n")
+					currentLine = fmt.Sprintf("%d ", b)
+					lineLength = len(currentLine)
+				} else if pixelStr3 := fmt.Sprintf("%d", r); lineLength + len(pixelStr3) + 1 <= 70 {
+					builder.WriteString(currentLine + pixelStr3 + "\n")
+					currentLine = fmt.Sprintf("%d %d ", g, b)
+					lineLength = len(currentLine)
+				} else {
+					builder.WriteString(strings.TrimSpace(currentLine) + "\n")
+					currentLine += pixelStr + " "
+					lineLength = len(pixelStr) + 1
+				}
+			} else {
+				currentLine += pixelStr + " "
+				lineLength += len(pixelStr) + 1
+			}
 		}
-		fmt.Fprintf(&builder, "%s\n", strings.Join(line, " "))
+		builder.WriteString(strings.TrimSpace(currentLine) + "\n")
 	}
 
 	err := os.WriteFile(filename, []byte(builder.String()), 0644)
