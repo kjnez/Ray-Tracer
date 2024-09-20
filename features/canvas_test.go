@@ -109,6 +109,23 @@ func TestSplittingLongLines(t *testing.T) {
 	}
 }
 
-// func TestEndingWithNewline(t *testing.T) {
-// 	canvas := NewCanvas(5, 3)
-// }
+func TestEndingWithNewline(t *testing.T) {
+	canvas := *NewCanvas(5, 3)
+	filename := "test_output.ppm"
+	err := CanvasToPPM(canvas, filename)
+	if err != nil {
+		t.Fatalf("CanvasToPPM returned an error: %v", err)
+	}
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		t.Fatalf("Failed to read output file: %v", err)
+	}
+	lastChar := content[len(content) - 1]
+	if lastChar != '\n' {
+		t.Errorf("Expecting the last character to be %v, got %v", '\n', lastChar)
+	}
+	err = os.Remove(filename)
+	if err != nil {
+		t.Fatalf("Failed to remove test output file: %v", err)
+	}
+}
