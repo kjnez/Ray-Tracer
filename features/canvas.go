@@ -13,7 +13,7 @@ type Canvas struct {
 	pixels [][]Color
 }
 
-func NewCanvas(height, width int) *Canvas {
+func NewCanvas(width, height int) *Canvas {
 	c := &Canvas{
 		width: width,
 		height: height,
@@ -26,12 +26,12 @@ func NewCanvas(height, width int) *Canvas {
 	return c
 }
 
-func WritePixel(canvas Canvas, r, c int, color Color) {
-	canvas.pixels[r][c] = color
+func WritePixel(canvas Canvas, x, y int, color Color) {
+	canvas.pixels[y][x] = color
 }
 
-func PixelAt(canvas Canvas, r, c int) Color {
-	return canvas.pixels[r][c]
+func PixelAt(canvas Canvas, x, y int) Color {
+	return canvas.pixels[y][x]
 }
 
 func clamp(v float64) int {
@@ -47,10 +47,10 @@ func clamp(v float64) int {
 func CanvasToPPM(c Canvas, filename string) error {
 	var builder strings.Builder
 	fmt.Fprintf(&builder, "P3\n%d %d\n255\n", c.width, c.height)
-	for x := 0; x < c.height; x++ {
+	for y := 0; y < c.height; y++ {
 		var currentLine string
 		lineLength := 0
-		for y := 0; y < c.width; y++ {
+		for x := 0; x < c.width; x++ {
 			color := PixelAt(c, x, y)
 			r := clamp(color.red)
 			g := clamp(color.green)

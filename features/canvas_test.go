@@ -8,9 +8,9 @@ import (
 
 func TestNewCanvas(t *testing.T) {
 	c := NewCanvas(10, 20)
-	if !(c.height == 10 && c.width == 20) {
-		t.Errorf("Expected height %v, got %v", 10, c.height)
-		t.Errorf("Expected width %v, got %v", 20, c.width)
+	if !(c.width == 10 && c.height == 20) {
+		t.Errorf("Expected height %v, got %v", 20, c.height)
+		t.Errorf("Expected width %v, got %v", 10, c.width)
 	}
 	black := NewColor(0, 0, 0)
 	if !EqualsColor(c.pixels[3][4], black) {
@@ -22,8 +22,8 @@ func TestWritePixel(t *testing.T) {
 	c := *NewCanvas(10, 20)
 	red := NewColor(1, 0, 0)
 	WritePixel(c, 2, 3, red)
-	if !EqualsColor(red, c.pixels[2][3]) {
-		t.Errorf("Expected color %v, got %v", red, c.pixels[2][3])
+	if !EqualsColor(red, c.pixels[3][2]) {
+		t.Errorf("Expected color %v, got %v", red, c.pixels[3][2])
 	}
 }
 
@@ -37,13 +37,13 @@ func TestPixelAt(t *testing.T) {
 }
 
 func TestCanvasToPPM(t *testing.T) {
-	c := *NewCanvas(3, 5)
+	c := *NewCanvas(5, 3)
 	c1 := NewColor(1.5, 0, 0)
 	c2 := NewColor(0, 0.5, 0)
 	c3 := NewColor(-0.5, 0, 1)
 	WritePixel(c, 0, 0, c1)
-	WritePixel(c, 1, 2, c2)
-	WritePixel(c, 2, 4, c3)
+	WritePixel(c, 2, 1, c2)
+	WritePixel(c, 4, 2, c3)
 
 	filename := "test_output.ppm"
 
@@ -73,10 +73,10 @@ func TestCanvasToPPM(t *testing.T) {
 }
 
 func TestSplittingLongLines(t *testing.T) {
-	canvas := *NewCanvas(2, 10)
+	canvas := *NewCanvas(10, 2)
 	color := NewColor(1, 0.8, 0.6)
-	for x := 0; x < canvas.height; x++ {
-		for y := 0; y < canvas.width; y++ {
+	for y := 0; y < canvas.height; y++ {
+		for x := 0; x < canvas.width; x++ {
 			WritePixel(canvas, x, y, color)
 		}
 	}
@@ -108,3 +108,7 @@ func TestSplittingLongLines(t *testing.T) {
 		t.Fatalf("Failed to remove test output file: %v", err)
 	}
 }
+
+// func TestEndingWithNewline(t *testing.T) {
+// 	canvas := NewCanvas(5, 3)
+// }
