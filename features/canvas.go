@@ -62,17 +62,17 @@ func CanvasToPPM(c Canvas, filename string) error {
 					builder.WriteString(currentLine + pixelStr1 + "\n")
 					currentLine = fmt.Sprintf("%d ", b)
 					lineLength = len(currentLine)
-				} else if pixelStr3 := fmt.Sprintf("%d", r); lineLength + len(pixelStr3) + 1 <= 70 {
-					builder.WriteString(currentLine + pixelStr3 + "\n")
+				} else if pixelStr2 := fmt.Sprintf("%d", r); lineLength + len(pixelStr2) <= 70 {
+					builder.WriteString(currentLine + pixelStr2 + "\n")
 					currentLine = fmt.Sprintf("%d %d ", g, b)
 					lineLength = len(currentLine)
 				} else {
 					builder.WriteString(strings.TrimSpace(currentLine) + "\n")
-					currentLine += pixelStr + " "
+					currentLine = pixelStr + " "
 					lineLength = len(pixelStr) + 1
 				}
 			} else {
-				currentLine += pixelStr + " "
+				currentLine = currentLine + pixelStr + " "
 				lineLength += len(pixelStr) + 1
 			}
 		}
