@@ -85,4 +85,3 @@ func CanvasToPPM(c Canvas, filename string) error {
 	}
 	return nil
 }
-
