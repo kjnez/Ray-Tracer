@@ -123,3 +123,28 @@ func TestDifferentMatrices(t *testing.T) {
 		t.Errorf("Expected %v, got %v", false, MatrixEqual(A, B))
 	}
 }
+
+func TestMatrixMultiply(t *testing.T) {
+	A := [][]float64{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 8, 7, 6},
+		{5, 4, 3, 2},
+	}
+	B := [][]float64{
+		{-2, 1, 2, 3},
+		{3, 2, 1, -1},
+		{4, 3, 6, 5},
+		{1, 2, 7, 8},
+	}
+	C := MatrixMultiply(A, B)
+	expected := [][]float64{
+		{20, 22, 50, 48},
+		{44, 54, 114, 108},
+		{40, 58, 110, 102},
+		{16, 26, 46, 42},
+	}
+	if !MatrixEqual(C, expected) {
+		t.Errorf("Expected %v, got %v", expected, C)
+	}
+}
