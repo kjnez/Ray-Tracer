@@ -87,3 +87,39 @@ func Test3x3Matrix(t *testing.T) {
 		})
 	}
 }
+
+func TestEqualMatrices(t *testing.T) {
+	A := [][]float64{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 8, 7, 6},
+		{5, 4, 3, 2},
+	}
+	B := [][]float64{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 8, 7, 6},
+		{5, 4, 3, 2},
+	}
+	if !MatrixEqual(A, B) {
+		t.Errorf("Expected %v, got %v", true, MatrixEqual(A, B))
+	}
+}
+
+func TestDifferentMatrices(t *testing.T) {
+	A := [][]float64{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 8, 7, 6},
+		{5, 4, 3, 2},
+	}
+	B := [][]float64{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 9, 7, 6},
+		{5, 4, 3, 2},
+	}
+	if MatrixEqual(A, B) {
+		t.Errorf("Expected %v, got %v", false, MatrixEqual(A, B))
+	}
+}
