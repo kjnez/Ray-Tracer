@@ -148,3 +148,85 @@ func TestMatrixMultiply(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, C)
 	}
 }
+
+func TestMatrixTupleMultiply(t *testing.T) {
+	A := [][]float64 {
+		{1, 2, 3, 4},
+		{2, 4, 4, 2},
+		{8, 6, 4, 1},
+		{0, 0, 0, 1},
+	}
+	b := NewTuple(1, 2, 3, 1)
+	expected := NewTuple(18, 24, 33, 1)
+	result := MatrixTupleMultiply(A, b)
+	if !Equals(expected, result) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestMatrixMultiplyingIdentity(t *testing.T) {
+	A := [][]float64 {
+		{0, 1, 2, 4},
+		{1, 2, 4, 8},
+		{2, 4, 8, 16},
+		{4, 8, 16, 32},
+	}
+	I := [][]float64 {
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 1},
+	}
+	expected := A
+	result := MatrixMultiply(A, I)
+	if !MatrixEqual(expected, result) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
+
+func TestIdentityMatrixMultiplyingTuple(t *testing.T) {
+	I := [][]float64 {
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 1},
+	}
+	a := Tuple{1, 2, 3, 4}
+	result := MatrixTupleMultiply(I, a)
+	if !Equals(result, a) {
+		t.Errorf("Expected %v, got %v", a, result)
+	}
+}
+
+func TestMatrixTranspose(t *testing.T) {
+	A := [][]float64 {
+		{0, 9, 3, 0},
+		{9, 8, 0, 8},
+		{1, 8, 5, 3},
+		{0, 0, 5, 8},
+	}
+	A_T := MatrixTranspose(A)
+	expected := [][]float64 {
+		{0, 9, 1, 0},
+		{9, 8, 8, 0},
+		{3, 0, 5, 5},
+		{0, 8, 3, 8},
+	}
+	if !MatrixEqual(A_T, expected) {
+		t.Errorf("Expected %v, got %v", expected, A_T)
+	}
+}
+
+func TestIdentityMatrixTranspose(t *testing.T) {
+	I := [][]float64 {
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 1},
+	}
+	expected := I
+	result := MatrixTranspose(I)
+	if !MatrixEqual(expected, result) {
+		t.Errorf("Expected %v, got %v", expected, result)
+	}
+}
